@@ -1,13 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import {
-	Linking,
-	Platform,
-	StyleSheet,
-	TouchableOpacity,
-	ViewPropTypes,
-} from 'react-native';
-import MapView, {} from 'react-native-maps';
+import { Linking, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import MapView from 'react-native-maps';
 
 export default class CustomView extends React.Component {
 	render() {
@@ -55,15 +48,3 @@ const styles = StyleSheet.create({
 		margin: 3,
 	},
 });
-
-CustomView.defaultProps = {
-	currentMessage: {},
-	containerStyle: {},
-	mapViewStyle: {},
-};
-
-CustomView.propTypes = {
-	currentMessage: PropTypes.object,
-	containerStyle: ViewPropTypes.style,
-	mapViewStyle: ViewPropTypes.style,
-};
