@@ -46,7 +46,6 @@ export default class CustomView extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 5,
 	},
 	view: {
 		width: 200,
