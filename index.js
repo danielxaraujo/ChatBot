@@ -1,5 +1,4 @@
 import {AppRegistry} from 'react-native';
-import App from './App';
-import {name as appName} from './app.json';
+import Setup from './src/boot/Setup';
 
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent("ChatBot", () => Setup);

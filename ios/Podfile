@@ -37,6 +37,8 @@ target 'ChatBot' do
     # react-native-camera-roll-picker dependencies
     pod 'react-native-camera-roll-picker', :path => '../node_modules/react-native-maps'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 end
 
 post_install do |installer|
