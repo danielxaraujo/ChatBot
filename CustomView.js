@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import { Linking, Platform, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import MapView from 'react-native-maps';
 
 export default class CustomView extends React.Component {
@@ -20,7 +20,7 @@ export default class CustomView extends React.Component {
 					});
 				}}>
 					<MapView
-						style={[styles.mapView, this.props.mapViewStyle]}
+						style={[styles.view, this.props.mapViewStyle]}
 						region={{
 							latitude: this.props.currentMessage.location.latitude,
 							longitude: this.props.currentMessage.location.longitude,
@@ -32,6 +32,8 @@ export default class CustomView extends React.Component {
 					/>
 				</TouchableOpacity>
 			);
+		} else if (this.props.currentMessage.image) {
+			<Image style={styles.view} source={{ uri: this.props.currentMessage.image}} />
 		}
 		return null;
 	}
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 5,
 	},
-	mapView: {
+	view: {
 		width: 200,
 		height: 200,
 		borderRadius: 13,

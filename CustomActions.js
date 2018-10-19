@@ -1,64 +1,65 @@
-import React from 'react';
-import { Modal, StyleSheet, TouchableOpacity, View, ViewPropTypes, Text } from 'react-native';
-import CameraRollPicker from 'react-native-camera-roll-picker';
+import React from 'react'
+import { Modal, StyleSheet, TouchableOpacity, View, Text, ActionSheetIOS } from 'react-native'
+import CameraRollPicker from 'react-native-camera-roll-picker'
 
 export default class CustomActions extends React.Component {
 	constructor(props) {
-		super(props);
-		this._images = [];
+		super(props)
+		this._images = []
 		this.state = {
 			modalVisible: false,
-		};
-		this.onActionsPress = this.onActionsPress.bind(this);
-		this.selectImages = this.selectImages.bind(this);
+		}
+		this.onActionsPress = this.onActionsPress.bind(this)
+		this.selectImages = this.selectImages.bind(this)
 	}
 
 	setImages(images) {
-		this._images = images;
+		this._images = images
 	}
 
 	getImages() {
-		return this._images;
+		return this._images
 	}
 
 	setModalVisible(visible = false) {
-		this.setState({ modalVisible: visible });
+		this.setState({ modalVisible: visible })
 	}
 
 	onActionsPress() {
-		const options = ['Choose From Library', 'Send Location', 'Cancel'];
-		const cancelButtonIndex = options.length - 1;
-		this.context.actionSheet().showActionSheetWithOptions({ options, cancelButtonIndex, }, (buttonIndex) => {
+		const options = ['Choose From Library', 'Send Location', 'Cancel']
+		const cancelButtonIndex = options.length - 1
+		ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex, }, (buttonIndex) => {
 			switch (buttonIndex) {
 				case 0:
-					this.setModalVisible(true);
-					break;
+					this.setModalVisible(true)
+					break
 				case 1:
-					navigator.geolocation.getCurrentPosition(
-						(position) => {
+					navigator.geolocation.getCurrentPosition(position => {
 							this.props.onSend({
 								location: {
 									latitude: position.coords.latitude,
 									longitude: position.coords.longitude,
 								},
-							});
-						},
-						(error) => alert(error.message),
-						{ enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-					);
-					break;
+							})
+						}, (error) => alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+					)
+					break
 				default:
 			}
-		});
+		})
 	}
 
-	selectImages(images) {
-		this.setImages(images);
+	selectImages(selectedImages, currentImage) {
+		this.setImages(selectedImages)
+		this.props.onSend({
+			image: currentImage.uri
+		})
+		this.setModalVisible();
 	}
 
 	renderIcon() {
 		if (this.props.icon) {
-			return this.props.icon();
+			return this.props.icon()
 		}
 		return (
 			<View style={[styles.wrapper, this.props.wrapperStyle]}>
@@ -66,25 +67,26 @@ export default class CustomActions extends React.Component {
 					+
 				</Text>
 			</View>
-		);
+		)
 	}
 
 	render() {
 		return (
 			<TouchableOpacity style={[styles.container, this.props.containerStyle]} onPress={this.onActionsPress}>
 				<Modal animationType={'slide'} transparent={false} visible={this.state.modalVisible} onRequestClose={() => {
-					this.setModalVisible(false);
+					this.setModalVisible(false)
 				}}>
 					<CameraRollPicker
-						maximum={10}
+						maximum={1}
 						imagesPerRow={4}
 						callback={this.selectImages}
-						selected={[]}
+						selectSingleItem={true}
+
 					/>
 				</Modal>
 				{this.renderIcon()}
 			</TouchableOpacity>
-		);
+		)
 	}
 }
 
@@ -108,4 +110,4 @@ const styles = StyleSheet.create({
 		backgroundColor: 'transparent',
 		textAlign: 'center',
 	},
-});
+})
