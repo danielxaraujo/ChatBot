@@ -21,6 +21,7 @@ module.exports = [
 		user: {
 			_id: 2,
 			name: 'React Native',
+			avatar: require('../assets/inss.png'),
 		},
 	},
 	{
