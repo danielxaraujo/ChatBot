@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
+import { Modal, StyleSheet, TouchableOpacity, View, Text, PermissionsAndroid, Platform } from 'react-native'
 import ActionSheet from 'react-native-action-sheet';
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
@@ -32,22 +32,35 @@ export default class CustomActions extends React.Component {
 		ActionSheet.showActionSheetWithOptions({ options, cancelButtonIndex, }, (buttonIndex) => {
 			switch (buttonIndex) {
 				case 0:
-					this.setModalVisible(true)
+					if (Platform.OS ==  'android') {
+						this.requestExternalStoreageRead()
+					} else {
+						this.setModalVisible(true)
+					}
 					break
 				case 1:
 					navigator.geolocation.getCurrentPosition(position => {
-							this.props.onSend({
-								location: {
-									latitude: position.coords.latitude,
-									longitude: position.coords.longitude,
-								},
-							})
-						}, (error) => alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+						this.props.onSend({
+							location: {
+								latitude: position.coords.latitude,
+								longitude: position.coords.longitude,
+							},
+						})
+					}, (error) => alert(error.message), { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
 					)
 					break
 				default:
 			}
 		})
+	}
+
+	requestExternalStoreageRead = () => {
+		const options = { title: 'Cool App ...', message: 'App needs access to external storage' }
+		PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, options).then(granted => {
+			if (granted == PermissionsAndroid.RESULTS.GRANTED) {
+				this.setModalVisible(true)
+			}
+		}).catch(err => {})
 	}
 
 	selectImages(selectedImages, currentImage) {

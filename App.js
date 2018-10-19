@@ -28,12 +28,10 @@ export default class Example extends React.Component {
 		this.renderSystemMessage = this.renderSystemMessage.bind(this);
 		this.renderFooter = this.renderFooter.bind(this);
 		this.onLoadEarlier = this.onLoadEarlier.bind(this);
-
-		this._isAlright = null;
 	}
 
 	componentWillMount() {
-		this._isMounted = true;
+		this._isMounted = true; //Indica que o Componente está ativo ou não
 		this.setState(() => {
 			return {
 				messages: require('./data/messages.js'),
@@ -42,13 +40,13 @@ export default class Example extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this._isMounted = false;
+		this._isMounted = false; //Indica que o Componente está ativo ou não
 	}
 
 	onLoadEarlier() {
 		this.setState((previousState) => {
 			return {
-				isLoadingEarlier: true,
+				isLoadingEarlier: true, //Habilita o spinner aguardando o carregamento das mensagens
 			};
 		});
 
@@ -57,15 +55,19 @@ export default class Example extends React.Component {
 				this.setState((previousState) => {
 					return {
 						messages: GiftedChat.prepend(previousState.messages, require('./data/old_messages.js')),
-						loadEarlier: false,
+						loadEarlier: false, //Desabilita o botão para carregar mensagens anteriores
 						isLoadingEarlier: false,
 					};
 				});
 			}
-		}, 1000); // simulating network
+		}, 5000); // simulating network
 	}
 
 	onSend(messages = []) {
+		if (messages.length > 0) {
+			messages[0].sent = true
+			messages[0].received = true
+		}
 		this.setState((previousState) => {
 			return {
 				messages: GiftedChat.append(previousState.messages, messages),
@@ -78,7 +80,7 @@ export default class Example extends React.Component {
 
 	answerDemo(messages) {
 		if (messages.length > 0) {
-			if ((messages[0].image || messages[0].location) || !this._isAlright) {
+			if ((messages[0].image || messages[0].location) || !this.text) {
 				this.setState((previousState) => {
 					return {
 						typingText: 'React Native is typing'
@@ -95,10 +97,7 @@ export default class Example extends React.Component {
 					} else if (messages[0].location) {
 						this.onReceive('My favorite place');
 					} else {
-						if (!this._isAlright) {
-							this._isAlright = true;
-							this.onReceive('Alright');
-						}
+						this.onReceive('Alright');
 					}
 				}
 			}
@@ -108,7 +107,7 @@ export default class Example extends React.Component {
 					typingText: null,
 				};
 			});
-		}, 1000);
+		}, 3000);
 	}
 
 	onReceive(text) {

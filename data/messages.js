@@ -9,10 +9,10 @@ module.exports = [
 		},
 		sent: true,
 		received: true,
-		location: {
-			latitude: 48.864601,
-			longitude: 2.398704
-		},
+		//location: {
+		//	latitude: 48.864601,
+		//	longitude: 2.398704
+		//},
 	},
 	{
 		_id: Math.round(Math.random() * 1000000),
