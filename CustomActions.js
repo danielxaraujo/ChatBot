@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, StyleSheet, TouchableOpacity, View, Text, ActionSheetIOS } from 'react-native'
+import { Modal, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
+import ActionSheet from 'react-native-action-sheet';
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
 export default class CustomActions extends React.Component {
@@ -28,7 +29,7 @@ export default class CustomActions extends React.Component {
 	onActionsPress() {
 		const options = ['Choose From Library', 'Send Location', 'Cancel']
 		const cancelButtonIndex = options.length - 1
-		ActionSheetIOS.showActionSheetWithOptions({ options, cancelButtonIndex, }, (buttonIndex) => {
+		ActionSheet.showActionSheetWithOptions({ options, cancelButtonIndex, }, (buttonIndex) => {
 			switch (buttonIndex) {
 				case 0:
 					this.setModalVisible(true)

@@ -29,11 +29,16 @@ export default class CustomView extends React.Component {
 						}}
 						scrollEnabled={false}
 						zoomEnabled={false}
-					/>
+					>
+						<MapView.Marker coordinate={{
+							latitude: this.props.currentMessage.location.latitude,
+							longitude: this.props.currentMessage.location.longitude,
+						}} />
+					</MapView>
 				</TouchableOpacity>
 			);
 		} else if (this.props.currentMessage.image) {
-			<Image style={styles.view} source={{ uri: this.props.currentMessage.image}} />
+			<Image style={styles.view} source={{ uri: this.props.currentMessage.image }} />
 		}
 		return null;
 	}
