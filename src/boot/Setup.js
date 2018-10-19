@@ -6,9 +6,9 @@ import { Camera, Chat, ChatView, Contact, Settings } from '../screens'
 
 const tabBarIcon = (nameActive, nameInactive) => {
 	let prefix = Platform.OS === 'ios' ? 'ios' : 'md'
-	let sufix = Platform.OS === 'ios' ? 'outline' : ''
+	let sufix = Platform.OS === 'ios' ? '' : ''
 	return ({ tintColor, focused }) => (
-		<Icon type={'Ionicons'} name={focused ? `${prefix}-${nameActive}` : `${prefix}-${nameInactive}-${sufix}`} style={{ color: tintColor }} />
+		<Icon type={'Ionicons'} name={focused ? `${prefix}-${nameActive}` : `${prefix}-${nameInactive}${sufix}`} style={{ color: tintColor }} />
 	)
 }
 
@@ -22,9 +22,7 @@ const TabNavigator = createBottomTabNavigator(
 		},
 		Camera: {
 			screen: Camera,
-			mode: 'modal',
 			navigationOptions: {
-				tabBarVisible: false,
 				tabBarIcon: tabBarIcon('camera', 'camera')
 			}
 		},

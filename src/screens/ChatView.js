@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-import { GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 
