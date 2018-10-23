@@ -78,7 +78,7 @@ export default class Example extends React.Component {
 
 	parseMessages = (messages = []) => {
 		console.log(messages)
-		for (let i = 0 i < messages.length i++) {
+		for (let i = 0; i < messages.length; i++) {
 			messages[i].createdAt = new Date(messages[i].createdAt)
 			if (messages[i].user.avatar) {
 				messages[i].user.avatar = require(`../../assets/inss.png`)
