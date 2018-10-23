@@ -107,23 +107,25 @@ export default class Example extends React.Component {
 
 	async onSend(messages = []) {
 		if (messages.length > 0) {
-			messages[0].sent = true
-			this.setState(previousState => {
-				return {
-					typingText: 'Aguardo resposta do servidor',
-					messages: GiftedChat.append(previousState.messages, [messages[0]])
-				}
-			})
-			const result = await this.sendMessages(messages[0])
-			context = result.data
-			messages[0].received = true
-			messages[0]._id = result.userMessageId
-			this.setState(previousState => {
-				return {
-					typingText: null,
-					messages: GiftedChat.append(previousState.messages, this.parseMessages([result.systemMessage]))
-				}
-			})
+			if (!(messages[0].location || messages[0].image)) {
+				messages[0].sent = true
+				this.setState(previousState => {
+					return {
+						typingText: 'Aguardo resposta do servidor',
+						messages: GiftedChat.append(previousState.messages, [messages[0]])
+					}
+				})
+				const result = await this.sendMessages(messages[0])
+				context = result.data
+				messages[0].received = true
+				messages[0]._id = result.userMessageId
+				this.setState(previousState => {
+					return {
+						typingText: null,
+						messages: GiftedChat.append(previousState.messages, this.parseMessages([result.systemMessage]))
+					}
+				})
+			}
 		}
 	}
 
