@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, StyleSheet, TouchableOpacity, View, Text, PermissionsAndroid, Platform } from 'react-native'
-import ActionSheet from 'react-native-action-sheet';
+import ActionSheet from 'react-native-action-sheet'
 import CameraRollPicker from 'react-native-camera-roll-picker'
 
 export default class CustomActions extends React.Component {
@@ -68,7 +68,7 @@ export default class CustomActions extends React.Component {
 		this.props.onSend({
 			image: currentImage.uri
 		})
-		this.setModalVisible();
+		this.setModalVisible()
 	}
 
 	renderIcon() {

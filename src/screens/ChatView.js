@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
-import CustomActions from './CustomActions';
-import CustomView from './CustomView';
+import React from 'react'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat'
+import CustomActions from './CustomActions'
+import CustomView from './CustomView'
 
 const server = 'http://127.0.0.1:3001/api/messages'
 const userId = '5bce2c234d5eae61d4bb6a38'
@@ -14,25 +14,25 @@ let context = {
 
 export default class Example extends React.Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			messages: [],
 			loadEarlier: true,
 			typingText: null,
 			isLoadingEarlier: false,
-		};
+		}
 
-		this._isMounted = false;
-		this.onSend = this.onSend.bind(this);
-		this.renderCustomActions = this.renderCustomActions.bind(this);
-		this.renderBubble = this.renderBubble.bind(this);
-		this.renderSystemMessage = this.renderSystemMessage.bind(this);
-		this.renderFooter = this.renderFooter.bind(this);
-		this.onLoadEarlier = this.onLoadEarlier.bind(this);
+		this._isMounted = false
+		this.onSend = this.onSend.bind(this)
+		this.renderCustomActions = this.renderCustomActions.bind(this)
+		this.renderBubble = this.renderBubble.bind(this)
+		this.renderSystemMessage = this.renderSystemMessage.bind(this)
+		this.renderFooter = this.renderFooter.bind(this)
+		this.onLoadEarlier = this.onLoadEarlier.bind(this)
 	}
 
 	async componentWillMount() {
-		this._isMounted = true; //Indica que o Componente está ativo ou não
+		this._isMounted = true //Indica que o Componente está ativo ou não
 		const messages = await this.loadMessages()
 		this.setState({ messages })
 	}
@@ -78,7 +78,7 @@ export default class Example extends React.Component {
 
 	parseMessages = (messages = []) => {
 		console.log(messages)
-		for (let i = 0; i < messages.length; i++) {
+		for (let i = 0 i < messages.length i++) {
 			messages[i].createdAt = new Date(messages[i].createdAt)
 			if (messages[i].user.avatar) {
 				messages[i].user.avatar = require(`../../assets/inss.png`)
@@ -88,7 +88,7 @@ export default class Example extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this._isMounted = false; //Indica que o Componente está ativo ou não
+		this._isMounted = false //Indica que o Componente está ativo ou não
 	}
 
 	async onLoadEarlier() {
@@ -100,8 +100,8 @@ export default class Example extends React.Component {
 					messages: GiftedChat.prepend(previousState.messages, messages),
 					loadEarlier: false, //Desabilita o botão para carregar mensagens anteriores
 					isLoadingEarlier: false,
-				};
-			});
+				}
+			})
 		}
 	}
 
@@ -122,7 +122,7 @@ export default class Example extends React.Component {
 			<CustomActions
 				{...props}
 			/>
-		);
+		)
 	}
 
 	renderBubble(props) {
@@ -135,7 +135,7 @@ export default class Example extends React.Component {
 					}
 				}}
 			/>
-		);
+		)
 	}
 
 	renderSystemMessage(props) {
@@ -149,7 +149,7 @@ export default class Example extends React.Component {
 					fontSize: 14,
 				}}
 			/>
-		);
+		)
 	}
 
 	renderCustomView(props) {
@@ -157,7 +157,7 @@ export default class Example extends React.Component {
 			<CustomView
 				{...props}
 			/>
-		);
+		)
 	}
 
 	renderFooter(props) {
@@ -168,31 +168,35 @@ export default class Example extends React.Component {
 						{this.state.typingText}
 					</Text>
 				</View>
-			);
+			)
 		}
-		return null;
+		return null
 	}
 
 	render() {
 		return (
-			<GiftedChat
-				messages={this.state.messages}
-				onSend={this.onSend}
-				loadEarlier={this.state.loadEarlier}
-				onLoadEarlier={this.onLoadEarlier}
-				isLoadingEarlier={this.state.isLoadingEarlier}
+			<SafeAreaView>
+				<View>
+					<GiftedChat
+						messages={this.state.messages}
+						onSend={this.onSend}
+						loadEarlier={this.state.loadEarlier}
+						onLoadEarlier={this.onLoadEarlier}
+						isLoadingEarlier={this.state.isLoadingEarlier}
 
-				user={{
-					_id: userId, // sent messages should have same user._id
-				}}
+						user={{
+							_id: userId, // sent messages should have same user._id
+						}}
 
-				renderBubble={this.renderBubble}
-				renderSystemMessage={this.renderSystemMessage}
-				renderFooter={this.renderFooter}
-				renderActions={this.renderCustomActions}
-				renderCustomView={this.renderCustomView}
-			/>
-		);
+						renderBubble={this.renderBubble}
+						renderSystemMessage={this.renderSystemMessage}
+						renderFooter={this.renderFooter}
+						renderActions={this.renderCustomActions}
+						renderCustomView={this.renderCustomView}
+					/>
+				</View>
+			</SafeAreaView>
+		)
 	}
 }
 
@@ -207,4 +211,4 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#aaa',
 	},
-});
+})

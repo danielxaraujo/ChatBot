@@ -44,12 +44,12 @@ const TabNavigator = createBottomTabNavigator(
 )
 
 TabNavigator.navigationOptions = ({ navigation }) => {
-	const component = TabNavigator.router.getComponentForState(navigation.state);
+	const component = TabNavigator.router.getComponentForState(navigation.state)
 	if (typeof component.navigationOptions === 'function') {
-		return component.navigationOptions({ navigation: _.navigation });
+		return component.navigationOptions({ navigation: _.navigation })
 	}
 	return component.navigationOptions
-};
+}
 
 export default createStackNavigator(
 	{
