@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat'
+import isIphoneX from '../utils/DeviceUtil'
 import CustomActions from './CustomActions'
 import CustomView from './CustomView'
 
-const server = 'http://127.0.0.1:3001/api/messages'
+const server = 'http://192.168.0.11:3001/api/messages'
 const userId = '5bce2c234d5eae61d4bb6a38'
 let context = {
 	contexts: [],
@@ -32,7 +33,7 @@ export default class Example extends React.Component {
 	}
 
 	async componentWillMount() {
-		this._isMounted = true //Indica que o Componente está ativo ou não
+		this._isMounted = true
 		const messages = await this.loadMessages()
 		this.setState({ messages })
 	}
@@ -49,7 +50,7 @@ export default class Example extends React.Component {
 			const messages = await response.json()
 			return this.parseMessages(messages)
 		} catch (err) {
-			console.warn(err)
+			console.warn(`Erro ao consulta mensagens: ${err}`)
 		}
 	}
 
@@ -62,7 +63,7 @@ export default class Example extends React.Component {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					context: {
+					data: {
 						...context,
 						query: message.text
 					},
@@ -72,12 +73,11 @@ export default class Example extends React.Component {
 			const messages = await response.json()
 			return this.parseMessages(messages)
 		} catch (err) {
-			console.warn(err)
+			console.warn(`Erro ao enviar mensagens: ${err}`)
 		}
 	}
 
 	parseMessages = (messages = []) => {
-		console.log(messages)
 		for (let i = 0; i < messages.length; i++) {
 			messages[i].createdAt = new Date(messages[i].createdAt)
 			if (messages[i].user.avatar) {
@@ -88,17 +88,17 @@ export default class Example extends React.Component {
 	}
 
 	componentWillUnmount() {
-		this._isMounted = false //Indica que o Componente está ativo ou não
+		this._isMounted = false
 	}
 
 	async onLoadEarlier() {
-		this.setState({ isLoadingEarlier: true })//Habilita o spinner aguardando o carregamento das mensagens
+		this.setState({ isLoadingEarlier: true })
 		if (this._isMounted === true) {
 			const messages = await this.loadMessages('/old')
 			this.setState(previousState => {
 				return {
 					messages: GiftedChat.prepend(previousState.messages, messages),
-					loadEarlier: false, //Desabilita o botão para carregar mensagens anteriores
+					loadEarlier: false,
 					isLoadingEarlier: false,
 				}
 			})
@@ -107,11 +107,21 @@ export default class Example extends React.Component {
 
 	async onSend(messages = []) {
 		if (messages.length > 0) {
-			const result = await this.sendMessages(messages[0])
-			context = result.context
+			messages[0].sent = true
 			this.setState(previousState => {
 				return {
-					messages: GiftedChat.append(previousState.messages, this.parseMessages(result.messages))
+					typingText: 'Aguardo resposta do servidor',
+					messages: GiftedChat.append(previousState.messages, [messages[0]])
+				}
+			})
+			const result = await this.sendMessages(messages[0])
+			context = result.data
+			messages[0].received = true
+			messages[0]._id = result.userMessageId
+			this.setState(previousState => {
+				return {
+					typingText: null,
+					messages: GiftedChat.append(previousState.messages, this.parseMessages([result.systemMessage]))
 				}
 			})
 		}
@@ -175,32 +185,35 @@ export default class Example extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView>
-				<View>
-					<GiftedChat
-						messages={this.state.messages}
-						onSend={this.onSend}
-						loadEarlier={this.state.loadEarlier}
-						onLoadEarlier={this.onLoadEarlier}
-						isLoadingEarlier={this.state.isLoadingEarlier}
+			<View style={styles.container}>
+				<GiftedChat
+					messages={this.state.messages}
+					onSend={this.onSend}
+					loadEarlier={this.state.loadEarlier}
+					onLoadEarlier={this.onLoadEarlier}
+					isLoadingEarlier={this.state.isLoadingEarlier}
 
-						user={{
-							_id: userId, // sent messages should have same user._id
-						}}
+					user={{
+						_id: userId, // sent messages should have same user._id
+					}}
 
-						renderBubble={this.renderBubble}
-						renderSystemMessage={this.renderSystemMessage}
-						renderFooter={this.renderFooter}
-						renderActions={this.renderCustomActions}
-						renderCustomView={this.renderCustomView}
-					/>
-				</View>
-			</SafeAreaView>
+					renderBubble={this.renderBubble}
+					renderSystemMessage={this.renderSystemMessage}
+					renderFooter={this.renderFooter}
+					renderActions={this.renderCustomActions}
+					renderCustomView={this.renderCustomView}
+					bottomOffset={isIphoneX() ? 36 : 0}
+				/>
+				{isIphoneX() && <View style={{ height: 36, backgroundColor: 'white' }} />}
+			</View>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
 	footerContainer: {
 		marginTop: 5,
 		marginLeft: 10,
