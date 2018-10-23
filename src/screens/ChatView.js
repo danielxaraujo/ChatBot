@@ -5,7 +5,7 @@ import isIphoneX from '../utils/DeviceUtil'
 import CustomActions from './CustomActions'
 import CustomView from './CustomView'
 
-const server = 'http://192.168.0.11:3001/api/messages'
+const server = 'http://dxchatbot.herokuapp.com/api/messages'
 const userId = '5bce2c234d5eae61d4bb6a38'
 let context = {
 	contexts: [],
@@ -107,14 +107,14 @@ export default class Example extends React.Component {
 
 	async onSend(messages = []) {
 		if (messages.length > 0) {
+			messages[0].sent = true
+			this.setState(previousState => {
+				return {
+					typingText: 'Aguardo resposta do servidor',
+					messages: GiftedChat.append(previousState.messages, [messages[0]])
+				}
+			})
 			if (!(messages[0].location || messages[0].image)) {
-				messages[0].sent = true
-				this.setState(previousState => {
-					return {
-						typingText: 'Aguardo resposta do servidor',
-						messages: GiftedChat.append(previousState.messages, [messages[0]])
-					}
-				})
 				const result = await this.sendMessages(messages[0])
 				context = result.data
 				messages[0].received = true
