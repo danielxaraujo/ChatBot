@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
-import { StyleSheet, Image, ScrollView, View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native'
 import { Item, Input, Icon } from 'native-base'
 import LinearGradient from 'react-native-linear-gradient';
 
