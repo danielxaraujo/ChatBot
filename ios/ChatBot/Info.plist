@@ -72,6 +72,12 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>SFCompactDisplay-Thin.otf</string>
+		<string>SFCompactDisplay-Ultralight.otf</string>
+		<string>SFCompactText-Semibold.otf</string>
+		<string>Roboto_medium.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
 	</array>
 </dict>
 </plist>
