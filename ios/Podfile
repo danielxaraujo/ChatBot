@@ -5,6 +5,7 @@ platform :ios, '9.0'
 
 target 'ChatBot' do
 
+	# React deps podspec link
 	pod 'React', :path => '../node_modules/react-native', :subspecs => [
 		'Core',
 		'CxxBridge',
@@ -21,9 +22,8 @@ target 'ChatBot' do
 		'RCTWebSocket',
 	]
 
+	# Third party React deps podspec link
 	pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
-  
-	# Third party deps podspec link
 	pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
 	pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
 	pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
@@ -33,11 +33,12 @@ target 'ChatBot' do
 	pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
 	pod 'GoogleMaps'
 	pod 'Google-Maps-iOS-Utils'
-    
-    # react-native-camera-roll-picker dependencies
-    pod 'react-native-camera-roll-picker', :path => '../node_modules/react-native-maps'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+	# react-native-vector-icons dependencies
+	pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+	# react-native-linear-gradient dependencies
+	pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
 end
 
