@@ -1,9 +1,10 @@
 import React from 'react'
 import { Component } from 'react'
-import { StyleSheet, ImageBackground, View, Text, TouchableOpacity  } from 'react-native'
+import { StyleSheet, Image, ScrollView, View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { Item, Input, Icon } from 'native-base'
+import LinearGradient from 'react-native-linear-gradient';
 
-import backgroundImage from '../../assets/img/login.jpg'
+import logo from '../../assets/img/logo.png'
 
 export default class Camera extends Component {
 
@@ -17,12 +18,11 @@ export default class Camera extends Component {
 
     render() {
         return (
-            <ImageBackground source={backgroundImage} style={styles.background}>
+            <LinearGradient colors={['#ffffff', '#ffffff', '#3388aa', '#005599']} style={styles.background}>
+                <View style={styles.header}>
+                    <Image source={logo} style={styles.logo} />
+                </View>
                 <View style={styles.container}>
-                    <View style={{ marginBottom: 50}}>
-                        <Icon type={'FontAwesome'} name={'comment'} style={styles.logo}/>
-                        <Text style={styles.forgotButtonText}>Super ChatFlow</Text>
-                    </View>
                     <Item style={styles.item}>
                         <Icon type={'FontAwesome'} name={'envelope'} style={styles.icon} />
                         <Input placeholder={'Username'} style={styles.input} placeholderTextColor={'rgba(255,255,255,.7)'} />
@@ -38,7 +38,7 @@ export default class Camera extends Component {
                         <Text style={styles.forgotButtonText}>Forgot password?</Text>
                     </TouchableOpacity>
                 </View>
-            </ImageBackground >
+            </LinearGradient>
         )
     }
 }
@@ -46,9 +46,16 @@ export default class Camera extends Component {
 const styles = StyleSheet.create({
     background: {
         flex: 1,
-        width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    header: {
+        paddingTop: 70,
+        paddingBottom: 50,
+    },
+    logo: {
+        height: 200,
+        aspectRatio: 1.5
     },
     container: {
         flex: 1,
@@ -56,16 +63,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 30,
-    },
-    logo: {
-        fontSize: 120,
-        color: 'rgb(38,189,196)',
-        marginBottom: 10,
-    },
-    logoText: {
-        fontFamily: 'SFCompactDisplay-Thin',
-        fontSize: 18,
-        color: 'rgba(255,255,255,.7)',
     },
     item: {
         marginTop: 25,
@@ -89,7 +86,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgb(38,189,196)'
+        backgroundColor: '#66aa77'
     },
     buttonText: {
         fontFamily: 'SFCompactDisplay-Thin',

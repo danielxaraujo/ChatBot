@@ -148,6 +148,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:15.0.1'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation project(':react-native-action-sheet')
+    implementation project(':react-native-linear-gradient')
 }
 
 // Run this once to be able to run the application with BUCK
